@@ -43,23 +43,12 @@ function getTagsArg() {
   done
 }
 
-function dockerBuild() {
-  echo 🔨 Building ${2} from ${1}: docker build --file ${1}/Dockerfile $(getTagsArg ${2})
+function dockerBuildAndPush() {
+  echo 🔨 Building ${2} from ${1}: docker buildx --file ${1}/Dockerfile --platform=linux/arm64,linux/amd64 $(getTagsArg ${2}) --provenance=false --push
   echo ========================
-  docker build --file ${1}/Dockerfile $(getTagsArg ${2}) .
+  docker buildx --file ${1}/Dockerfile --platform=linux/arm64,linux/amd64 $(getTagsArg ${2}) --provenance=false --push .
   echo ========================
-  echo ✅ Build completed ${2} from ${1} 
-}
-
-function dockerPush() {
-  for TAG in ${TAGS}
-  do
-    echo 💾 Pushing to remote: docker push ${1}:${TAG}
-    echo ========================
-    docker push "${1}:${TAG}"
-    echo ========================
-    echo ✅ Pushed "${1}:${TAG}"
-  done
+  echo ✅ Build \& push completed ${2} from ${1}
 }
 
 # ./scripts/release-dockerhub.sh -t cypress-v5
@@ -88,13 +77,9 @@ fi
 echo 🚀 Releasing tags: $TAGS
 echo ========================
 
-dockerBuild "packages/${service}" "ecomundoit/sorry-cypress-${service}"
-# dockerBuild "packages/api" "ecomundoit/sorry-cypress-api"
-# dockerBuild "packages/dashboard" "ecomundoit/sorry-cypress-dashboard"
-
-dockerPush "ecomundoit/sorry-cypress-${service}"
-# dockerPush "ecomundoit/sorry-cypress-api"
-# dockerPush "ecomundoit/sorry-cypress-dashboard"
+dockerBuildAndPush "packages/${service}" "ecomundoit/sorry-cypress-${service}"
+# dockerBuildAndPush "packages/api" "ecomundoit/sorry-cypress-api"
+# dockerBuildAndPush "packages/dashboard" "ecomundoit/sorry-cypress-dashboard"
 
 echo ========================
 echo 🎉 Released to Dockerhub: $TAGS
