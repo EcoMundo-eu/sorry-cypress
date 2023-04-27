@@ -88,13 +88,13 @@ fi
 echo 🚀 Releasing tags: $TAGS
 echo ========================
 
-dockerBuild "packages/${service}" "agoldis/sorry-cypress-${service}"
-# dockerBuild "packages/api" "agoldis/sorry-cypress-api"
-# dockerBuild "packages/dashboard" "agoldis/sorry-cypress-dashboard"
+dockerBuild "packages/${service}" "ecomundoit/sorry-cypress-${service}"
+# dockerBuild "packages/api" "ecomundoit/sorry-cypress-api"
+# dockerBuild "packages/dashboard" "ecomundoit/sorry-cypress-dashboard"
 
-dockerPush "agoldis/sorry-cypress-${service}"
-# dockerPush "agoldis/sorry-cypress-api"
-# dockerPush "agoldis/sorry-cypress-dashboard"
+dockerPush "ecomundoit/sorry-cypress-${service}"
+# dockerPush "ecomundoit/sorry-cypress-api"
+# dockerPush "ecomundoit/sorry-cypress-dashboard"
 
 echo ========================
 echo 🎉 Released to Dockerhub: $TAGS
