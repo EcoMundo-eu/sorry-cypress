@@ -46,7 +46,7 @@ function getTagsArg() {
 function dockerBuildAndPush() {
   echo 🔨 Building ${2} from ${1}: docker buildx --file ${1}/Dockerfile --platform=linux/arm64,linux/amd64 $(getTagsArg ${2}) --provenance=false --push
   echo ========================
-  docker buildx --file ${1}/Dockerfile --platform=linux/arm64,linux/amd64 $(getTagsArg ${2}) --provenance=false --push .
+  docker buildx build --file ${1}/Dockerfile --platform=linux/arm64,linux/amd64 $(getTagsArg ${2}) --provenance=false --push .
   echo ========================
   echo ✅ Build \& push completed ${2} from ${1}
 }
